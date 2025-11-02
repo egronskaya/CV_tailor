@@ -1,0 +1,7 @@
+streamlit
+openai
+python-docx
+fpdf2
+python-dotenv
+jinja2
+latex

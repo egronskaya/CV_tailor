@@ -4,7 +4,7 @@ A Streamlit application that tailors CVs and cover letters to specific job adver
 
 ## Privacy & Security Features
 
-✨ **Enhanced Privacy Protection** ✨
+**Enhanced Privacy Protection**
 
 - All interactions with AI models are configured for maximum privacy:
   - Requests that data not be stored or used for training

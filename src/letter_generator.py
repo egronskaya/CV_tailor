@@ -1,6 +1,6 @@
 import os
 from typing import List, Dict
-from utils.secure_openai import SecureOpenAIClient
+from src.utils.secure_openai import SecureOpenAIClient
 
 class LetterGenerator:
     def __init__(self):

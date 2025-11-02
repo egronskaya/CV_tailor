@@ -43,6 +43,11 @@ outputs/
 
 # Figures and logos
 figures/
+assets/*.png
+assets/*.jpg
+assets/*.jpeg
+assets/*.svg
+assets/*.gif
 
 # Misc
 .DS_Store

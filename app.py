@@ -12,7 +12,6 @@ load_dotenv()
 # Configure Streamlit
 st.set_page_config(
     page_title="CV Tailor",
-    page_icon="✨",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -51,11 +50,7 @@ st.markdown("""
         color: #856404;
         border: 1px solid #ffeeba;
     }
-    .app-title {
-        text-align: center;
-        color: #2C3E50;
-        padding: 1rem 0;
-    }
+    /* Header styling moved inline */
     .tab-content {
         padding: 2rem 0;
     }
@@ -76,7 +71,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 if os.getenv('DEBUG_MODE', 'false').lower() == 'true':
-    st.warning("Debug mode enabled", icon="⚠️")
+    st.warning("Debug mode enabled")
 
 # Initialize session state
 if 'generated_cv' not in st.session_state:
@@ -97,10 +92,10 @@ def view_and_edit_documents():
     if not st.session_state.generated_cv or not st.session_state.cover_letters:
         st.markdown("""
             <div class='warning-message'>
-                <h4>👋 Welcome to the Editor!</h4>
+                <h4>Welcome to the Editor!</h4>
                 <p>No documents have been generated yet. To get started:</p>
                 <ol>
-                    <li>Go to the '🎯 Generate Documents' tab</li>
+                    <li>Go to the 'Generate Documents' tab</li>
                     <li>Paste your job advertisement</li>
                     <li>Click 'Generate Documents'</li>
                 </ol>
@@ -108,10 +103,10 @@ def view_and_edit_documents():
         """, unsafe_allow_html=True)
         return
 
-    st.markdown("<div class='section-header'>✏️ Review and Edit Documents</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>Review and Edit Documents</div>", unsafe_allow_html=True)
     
     # CV Review with better organization
-    st.markdown("### 📄 CV Content")
+    st.markdown("### CV Content")
     st.markdown("Edit your CV content below. Changes will be reflected in both DOCX and PDF versions.")
     
     cv_content = st.session_state.generated_cv['content']
@@ -148,11 +143,11 @@ def view_and_edit_documents():
                     )
     
     # Cover Letters Review with better organization
-    st.markdown("### ✉️ Cover Letters")
+    st.markdown("### Cover Letters")
     st.markdown("Each version takes a different approach while maintaining your personal style. Edit any version below.")
     
     for i, letter in enumerate(st.session_state.cover_letters, 1):
-        with st.expander(f"✉️ Cover Letter {i}", expanded=True):
+        with st.expander(f"Cover Letter {i}", expanded=True):
             st.markdown(f"""
                 **Version {i}** - Edit this cover letter to perfect its content.
                 Any changes will be reflected in both DOCX and PDF versions.
@@ -191,28 +186,28 @@ def view_and_edit_documents():
                         )
     
     # Regenerate options with better organization
-    st.markdown("<div class='section-header'>🔄 Regenerate Documents</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>Regenerate Documents</div>", unsafe_allow_html=True)
     st.markdown("""
         Not quite what you're looking for? You can regenerate documents while keeping the same job posting:
     """)
     
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🔄 Regenerate CV", help="Generate a new version of your CV using the same job posting"):
-            with st.spinner("✨ Creating a new version of your CV..."):
+        if st.button("Regenerate CV", help="Generate a new version of your CV using the same job posting"):
+            with st.spinner("Creating a new version of your CV..."):
                 st.session_state.generated_cv = asyncio.run(
                     cv_processor.tailor_cv(st.session_state.job_ad)
                 )
                 st.markdown("""
                     <div class='success-message'>
-                        <h4>✨ CV Regenerated!</h4>
+                        <h4>CV Regenerated!</h4>
                         <p>A new version of your CV has been created. Check the content above.</p>
                     </div>
                 """, unsafe_allow_html=True)
                 st.experimental_rerun()
     
     with col2:
-        if st.button("🔄 Regenerate Cover Letters", help="Generate new versions of all cover letters"):
+        if st.button("Regenerate Cover Letters", help="Generate new versions of all cover letters"):
             with st.spinner("✨ Creating new versions of your cover letters..."):
                 st.session_state.cover_letters = asyncio.run(
                     letter_generator.generate_letters(st.session_state.job_ad, 3)
@@ -226,17 +221,25 @@ def view_and_edit_documents():
                 st.experimental_rerun()
 
 def main():
-    # Title with emoji and styling
-    st.markdown("<h1 class='app-title'>✨ CV & Cover Letter Tailor ✨</h1>", unsafe_allow_html=True)
-    st.markdown("""
-        <p style='text-align: center; color: #666; font-size: 1.2em; margin-bottom: 2em;'>
-            Transform your CV and generate personalized cover letters using AI, 
-            while keeping your data private and secure.
-        </p>
-    """, unsafe_allow_html=True)
+    # Title and logo
+    col1, col2 = st.columns([1, 4], gap="small")
+    
+    with col1:
+        st.image("assets/logo.png", width=400, use_container_width=True)
+    
+    with col2:
+        st.markdown("""
+            <div style='margin-top: 0px; padding: 0;'>
+                <h1 style='margin: 0; padding: 0; font-size: 2.5em;'>CV Tailor</h1>
+                <p style='color: #666; font-size: 1.2em; margin-top: 10px; max-width: 500px;'>
+                    Transform your CV to fit any job ad and generate personalized cover letters.
+                    Keep your data private and secure throughout the process.
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
     
     # Create tabs with icons
-    tab1, tab2 = st.tabs(["🎯 Generate Documents", "✏️ Review & Edit"])
+    tab1, tab2 = st.tabs(["Generate Documents", "Review & Edit"])
     
     with tab1:
         st.markdown("<div class='tab-content'>", unsafe_allow_html=True)
@@ -244,10 +247,10 @@ def main():
         # Introduction with steps
         st.markdown("""
             ### How it works:
-            1. 📋 Paste your job advertisement below
-            2. 🤖 AI analyzes the requirements
-            3. 📄 Get your tailored CV and cover letters
-            4. ✨ Review and fine-tune the results
+            1. Paste your job advertisement below
+            2. AI analyzes the requirements
+            3. Get your tailored CV and cover letters
+            4. Review and fine-tune the results
         """)
         
         # Job Advertisement Input with better styling
@@ -295,19 +298,19 @@ def main():
                 st.success("Documents generated successfully!")
                 
                 # Display extracted skills with tags
-                st.markdown("<div class='section-header'>📊 Key Skills Identified</div>", unsafe_allow_html=True)
+                st.markdown("<div class='section-header'>Key Skills Identified</div>", unsafe_allow_html=True)
                 skills_html = "".join([f"<span class='skill-tag'>{skill}</span>" for skill in st.session_state.skills])
                 st.markdown(f"<div style='line-height: 3;'>{skills_html}</div>", unsafe_allow_html=True)
                 
                 # Create download buttons for documents with better organization
-                st.markdown("<div class='section-header'>📄 Generated Documents</div>", unsafe_allow_html=True)
+                st.markdown("<div class='section-header'>Generated Documents</div>", unsafe_allow_html=True)
                 
                 # CV downloads with icons and better styling
                 st.markdown("#### Your Tailored CV")
                 col1, col2 = st.columns(2)
                 with col1:
                     st.download_button(
-                        "📎 Download CV (DOCX)",
+                        "Download CV (DOCX)",
                         cv_docx,
                         "tailored_cv.docx",
                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -315,7 +318,7 @@ def main():
                     )
                 with col2:
                     st.download_button(
-                        "📄 Download CV (PDF)",
+                        "Download CV (PDF)",
                         cv_pdf,
                         "tailored_cv.pdf",
                         "application/pdf",
@@ -331,7 +334,7 @@ def main():
                     col1, col2 = st.columns(2)
                     with col1:
                         st.download_button(
-                            f"📎 Download Letter {i} (DOCX)",
+                            f"Download Letter {i} (DOCX)",
                             docx,
                             f"cover_letter_{i}.docx",
                             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -339,7 +342,7 @@ def main():
                         )
                     with col2:
                         st.download_button(
-                            f"📄 Download Letter {i} (PDF)",
+                            f"Download Letter {i} (PDF)",
                             pdf,
                             f"cover_letter_{i}.pdf",
                             "application/pdf",
@@ -349,11 +352,11 @@ def main():
                 # Success message with better styling and clear next steps
                 st.markdown("""
                     <div class='success-message'>
-                        <h4>🎉 Documents Generated Successfully!</h4>
+                        <h4>Documents Generated Successfully!</h4>
                         <p>Your documents have been tailored to the job description. You can:</p>
                         <ul>
                             <li>Download the documents in your preferred format</li>
-                            <li>Switch to the '✏️ Review & Edit' tab to make any adjustments</li>
+                            <li>Switch to the 'Review & Edit' tab to make any adjustments</li>
                             <li>Regenerate individual documents if needed</li>
                         </ul>
                     </div>

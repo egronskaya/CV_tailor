@@ -1,9 +1,8 @@
 import os
 from typing import List, Dict, Optional
 from openai import OpenAI
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
+import httpx
+from httpx import Timeout, Limits
 
 class SecureOpenAIClient:
     def __init__(self):
@@ -13,8 +12,8 @@ class SecureOpenAIClient:
         self.temperature = float(os.getenv('TEMPERATURE', '0.7'))
         self.top_p = float(os.getenv('TOP_P', '0.9'))
         
-        # Create a custom session with privacy headers
-        self.session = self._create_secure_session()
+        # Create a custom client with privacy headers
+        self.http_client = self._create_secure_client()
         
         # Initialize OpenAI client with custom configuration
         self.client = OpenAI(
@@ -25,32 +24,27 @@ class SecureOpenAIClient:
                 "OpenAI-Internal-Request": "false",
                 "X-Data-Use-Consent": "false",
             },
-            http_client=self.session
+            http_client=self.http_client
         )
 
-    def _create_secure_session(self) -> requests.Session:
-        """Create a session with retry logic and privacy headers"""
-        session = requests.Session()
+    def _create_secure_client(self) -> httpx.Client:
+        """Create an HTTP client with retry logic and privacy headers"""
+        timeout = Timeout(30.0, read=30.0)
+        limits = Limits(max_keepalive_connections=5, max_connections=10)
         
-        # Configure retry strategy
-        retry_strategy = Retry(
-            total=3,
-            backoff_factor=1,
-            status_forcelist=[429, 500, 502, 503, 504]
+        # Create client with custom settings
+        client = httpx.Client(
+            timeout=timeout,
+            limits=limits,
+            headers={
+                "HTTP-Referer": "private",
+                "X-Session-Type": "private",
+                "OpenAI-Internal-Request": "false",
+                "X-Data-Use-Consent": "false",
+            }
         )
         
-        adapter = HTTPAdapter(max_retries=retry_strategy)
-        session.mount("https://", adapter)
-        
-        # Add headers to prevent data storage and training
-        session.headers.update({
-            "HTTP-Referer": "private",
-            "X-Session-Type": "private",
-            "OpenAI-Internal-Request": "false",
-            "X-Data-Use-Consent": "false",
-        })
-        
-        return session
+        return client
 
     async def generate_completion(
         self,
@@ -105,7 +99,7 @@ class SecureOpenAIClient:
 
     def cleanup(self):
         """
-        Clean up resources and ensure proper session closure
+        Clean up resources and ensure client closure
         """
-        if self.session:
-            self.session.close()
+        if self.http_client:
+            self.http_client.close()

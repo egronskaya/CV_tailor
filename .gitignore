@@ -41,6 +41,9 @@ env/
 user_data/
 outputs/
 
+# Figures and logos
+figures/
+
 # Misc
 .DS_Store
 *.log

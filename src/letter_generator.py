@@ -1,19 +1,14 @@
 import os
-import openai
 from typing import List, Dict
+from utils.secure_openai import SecureOpenAIClient
 
 class LetterGenerator:
     def __init__(self):
-        # OpenAI settings
-        self.model = os.getenv('GPT_MODEL', 'gpt-4.1-mini')
-        self.api_key = os.getenv('OPENAI_API_KEY')
-        self.max_tokens = int(os.getenv('MAX_TOKENS', '2000'))
-        self.temperature = float(os.getenv('TEMPERATURE', '0.7'))
-        self.top_p = float(os.getenv('TOP_P', '0.9'))
-        openai.api_key = self.api_key
+        # Initialize secure OpenAI client
+        self.ai_client = SecureOpenAIClient()
         
         # Load style examples and settings
-        examples_path = os.getenv('LETTER_EXAMPLES_PATH', 'examples/cover_letters/style_examples.md')
+        examples_path = os.getenv('LETTER_EXAMPLES_PATH', 'user_data/cover_letters/style_examples.md')
         with open(examples_path, 'r') as f:
             self.style_examples = f.read()
             
@@ -28,9 +23,9 @@ class LetterGenerator:
         self.save_intermediate = os.getenv('SAVE_INTERMEDIATE', 'false').lower() == 'true'
         self.debug_mode = os.getenv('DEBUG_MODE', 'false').lower() == 'true'
     
-    def generate_letters(self, job_ad: str, num_variants: int = 3) -> List[Dict]:
+    async def generate_letters(self, job_ad: str, num_variants: int = 3) -> List[Dict]:
         """Generate multiple versions of cover letters."""
-        letters = []
+        prompts = []
         
         for i in range(num_variants):
             prompt = f"""
@@ -46,19 +41,17 @@ class LetterGenerator:
             
             Generate version {i+1} of {num_variants}, with a different approach/focus for each version.
             """
-            
-            response = openai.ChatCompletion.create(
-                model=self.model,
-                messages=[
-                    {"role": "user", "content": prompt}
-                ]
-            )
-            
-            letter_content = response.choices[0].message.content
-            
-            letters.append({
-                'content': letter_content,
+            prompts.append(prompt)
+        
+        # Generate all letters in parallel for better performance
+        responses = await self.ai_client.generate_multiple_completions(prompts)
+        
+        letters = [
+            {
+                'content': content,
                 'version': i + 1
-            })
+            }
+            for i, content in enumerate(responses)
+        ]
         
         return letters

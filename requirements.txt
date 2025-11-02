@@ -1,7 +1,11 @@
 streamlit
-openai
+openai>=1.0.0
 python-docx
 fpdf2
 python-dotenv
 jinja2
 latex
+requests>=2.31.0
+urllib3>=2.0.0
+aiohttp>=3.8.0
+asyncio>=3.4.3

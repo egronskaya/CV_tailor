@@ -9,7 +9,7 @@ import subprocess
 class DocumentMaker:
     def __init__(self):
         # Load style guide
-        style_guide_path = os.getenv('STYLE_GUIDE_PATH', 'templates/style_guide.yaml')
+        style_guide_path = os.getenv('USER_STYLE_PATH', 'user_data/style/user_style.yaml')
         with open(style_guide_path, 'r') as f:
             self.style_guide = yaml.safe_load(f)
             

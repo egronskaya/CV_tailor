@@ -36,8 +36,10 @@ env/
 *.pdf
 *.docx
 !templates/*.docx
-!examples/*.docx
-!examples/*.pdf
+
+# User data
+user_data/
+outputs/
 
 # Misc
 .DS_Store

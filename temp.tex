@@ -1,0 +1,319 @@
+\documentclass[10pt,a4paper, sans]{moderncv}
+\usepackage{mathpazo}
+% moderncv themes
+%\moderncvtheme[blue]{casual}                 % optional argument are 'blue' (default), 'orange', 'red', 'green', 'grey' and 'roman' (for roman fonts, instead of sans serif fonts)
+\moderncvtheme[red]{classic}                % idem
+\usepackage[cp1251]{inputenc}
+\usepackage[english]{babel}                   % replace by the encoding you are using
+
+\usepackage{datetime}
+\newdateformat{monthyeardate}{\monthname[\THEMONTH], \THEYEAR}
+
+\usepackage{setspace}
+\usepackage{multicol}
+
+% Page numbering
+\usepackage{lastpage}
+
+% HyperrefLinkSymbol from http://tex.stackexchange.com/questions/99316/symbol-for-external-links
+\usepackage{tikz}
+\DeclareRobustCommand{\ExternalLink}{%
+    {\tikz[x=1.2ex, y=1.2ex, baseline=-0.05ex]{%
+        \begin{scope}[x=1ex, y=1ex]
+            \clip (-0.1,-0.1)
+                --++ (-0, 1.2)
+                --++ (0.6, 0)
+                --++ (0, -0.6)
+                --++ (0.6, 0)
+                --++ (0, -1);
+            \path[draw,
+                line width = 0.5,
+                rounded corners=0.5]
+                (0,0) rectangle (1,1);
+        \end{scope}
+        \path[draw, line width = 0.5] (0.5, 0.5)
+            -- (1, 1);
+        \path[draw, line width = 0.5] (0.6, 1)
+            -- (1, 1) -- (1, 0.6);
+        }%
+    }}
+
+\lfoot{\addressfont\itshape\textcolor{gray}{Elena Gronskaya}}
+
+\rfoot{\addressfont\itshape\textcolor{gray}{Page \thepage\ of \pageref{LastPage}}}
+
+% adjust the page margins
+\usepackage{geometry}
+\geometry{hmargin=2cm, vmargin={2cm, 2cm}}
+\setlength{\hintscolumnwidth}{2.1cm}           % if you want to change the width of the column with the dates
+%\AtBeginDocument{\setlength{\maketitlenamewidth}{6cm}}  % only for the classic theme, if you want to change the width of your name placeholder (to leave more space for your address details
+\AtBeginDocument{\recomputelengths}                     % required when changes are made to page layout lengths
+
+
+% Removing dots and commas if necessary
+\renewcommand*{\cventry}[7][.25em]{%
+  \cvitem[#1]{#2}{%
+    {\bfseries#3}%
+%   \ifthenelse{\equal{#4}{}}{}{, {\slshape#4}}% I changed this line (with comma) ...
+    \ifthenelse{\equal{#4}{}}{}{ {\slshape#4}}% ... into this one (without comma).
+    \ifthenelse{\equal{#5}{}}{}{, #5}%
+    \ifthenelse{\equal{#6}{}}{}{, #6}%
+    {}\strut%
+    \ifx&#7&%
+      \else{\newline{}\begin{minipage}[t]{\linewidth}\small#7\end{minipage}}\fi}}
+
+\newcommand{\subitembullet}{\color{gray}{$\vcenter{\hbox{\tiny$\bullet$}}$}}
+\newcommand{\tb}{\textbullet\hspace{1ex}}
+\newcommand{\expl}[2][5cm]{\parbox[t]{#1}{\footnotesize #2}}
+\newcommand{\myl}{\leaders \hbox to .5em{\hfil . \hfil} \hfill}
+
+% personal data
+\firstname{{\Huge{}Elena}} \familyname{{\Huge{}Gronskaya}}
+\title{CV\vspace{1.5cm}}               % optional, remove the line if not wanted
+\address{
+Nationality: \hspace{.5}  Swiss\makenewline
+DOB: \hspace{1.5} 8 Feb. 1989\makenewline
+Address: 8049 Zurich}{}{}          % optional, remove the line if not wanted
+\mobile{\quad +41 78 692 2134}                   
+\email{\quad elena.n.gronskaya@gmail.com} % optional, remove the line if not wanted
+\extrainfo{%
+LinkedIn: \quad \href{https://www.linkedin.com/in/elenagronskaya/}{elenagronskaya \ExternalLink} \makenewline
+GitHub: \quad \href{https://github.com/egronskaya}{egronskaya \ExternalLink}}
+\photo[78pt][0pt]{figures/EG_photo_2}                         % '64pt' is the height the picture must be resized to and 'picture' is the name of the picture file; optional, remove the line if not wanted
+%\quote{Test}                 % optional, remove the line if not wanted
+
+%\nopagenumbers{}                              % uncomment to suppress automatic page numbering for CVs longer than one page
+
+
+% Font renew!
+% \renewcommand{\sfdefault}{\rmdefault}
+
+%----------------------------------------------------------------------------------
+%            content
+%----------------------------------------------------------------------------------
+\begin{document}\selectlanguage{english}
+\maketitle
+\vspace{-1.8cm}
+
+\centering
+
+\section{Intro}
+\cvitem{}{ 
+Elena is a senior data scientist with a background in biochemistry (BSc + MSc, University of Oxford) and neuroscience (PhD, ETH Zurich). She loves creating analytics tools that leverage the power of AI to aid researchers in making discoveries to improve people's health. She values efficiency, fast-paced development, clear communication and impactful work. 
+}
+
+\vspace{-.5\baselineskip}
+
+\section{Skills}
+\cvitem{ }{%
+    \small
+    \textbf{Areas of Expertise}
+    \vspace{.5\baselineskip}
+        \begin{itemize}
+            \item Building end-to-end GenAI business solutions to extract insights from  data and boost process efficiency
+            \item Pipelines for large-scale data processing in cloud environments (Azure, PySpark, Databricks)
+            \item Scientific software development for biological time-series data analysis (Python)
+            \item Data analysis, visualization, and presentation of insights to multidisciplinary audiences
+            \item Project leadership, cross-functional collaboration and product development in life sciences and healthcare 
+        \end{itemize}
+    %
+    \vspace{.5\baselineskip}
+    %
+    \textbf{Skills and Tools}
+    \vspace{-.75\baselineskip}
+    \begin{multicols}{2}
+        \small
+        \begin{itemize}
+            \item Gen AI: OpenAI Python SDK, Azure AI Search, Databricks (LangChain, Agent framework, MLflow)
+            \item Python, PySpark, MATLAB, SQL, \LaTeX
+            \item Linux, Bash, Git, Docker, CI/CD
+            \item Cloud Data Platforms: Databricks (ETL pipelines, job orchestration), Azure Services
+            \item Visualization: Streamlit, Apache Superset 
+            \item Project management: JIRA, Confluence
+        \end{itemize}
+    \end{multicols}   
+    %
+    \vspace{-.5\baselineskip}
+    %
+    \textbf{Domain Knowledge}
+    \vspace{-.75\baselineskip}
+    \begin{multicols}{4}
+        \small
+        \begin{itemize}
+            \item sensory neuroscience
+            \item biochemistry
+            \item molecular biology
+            \item genetic engineering
+            \item cancer biology
+            \item immunology
+            \item pharmacology
+            \item metabolism
+        \end{itemize}
+    \end{multicols}
+    %
+    \vspace{-.5\baselineskip}
+    %
+    \textbf{Languages}
+    \vspace{-.75\baselineskip}
+    \begin{multicols}{2}
+        \small
+        \begin{itemize}
+            \item Native: English, Russian
+            \item Conversational: German, French
+        \end{itemize}
+    \end{multicols}
+    %
+}
+
+\vspace{-\baselineskip}
+
+\section{Professional Experience}
+
+\cventry{2023--present\\[.1cm] \includegraphics[width=.7\linewidth]{figures/sonova_logo.png}}%
+{Generative AI Solutions Engineer}%
+{}{Sonova AG \href{https://www.sonova.com/en}{(sonova.com \ExternalLink)}, Staefa}{}%
+{
+        \begin{itemize}
+            \setstretch{1.1}
+            \item Delivered scalable generative AI solutions across Operations that enabled leadership with real-time customer insights, streamlined internal data access, and accelerated specialized content creation using medical claims (Azure OpenAI RAG; Databricks pipelines for data ingestion and processing).
+            \item Built Streamlit dashboards leveraging generative AI for continuous customer case monitoring and classification to identify emerging trends, and for flagging misclassified cases to ensure legal compliance.
+            \item Collaborated cross-functionally to create a monitoring system for medical device reliability.
+            \item Presented complex AI concepts to non-specialist stakeholders, enabling cross-disciplinary collaboration.
+        \end{itemize}
+}
+\vspace{.1cm}
+
+\cventry{2019--2023\\[.1cm] \includegraphics[width=.7\linewidth]{figures/mxw_logo.png}}%
+{Neural Software Engineer \& Analytics Lead}%
+{}{MaxWell Biosystems \href{https://www.mxwbio.com}{(mxwbio.com \ExternalLink)}, Zurich}{}%
+{
+        \begin{itemize}
+            \setstretch{1.1}
+            \item Lead Engineer for the development of new software module for neural stimulation. 
+            \item Developed a new framework within the \href{https://www.mxwbio.com/products/maxlab-live-software/}{MaxLab Live \ExternalLink} software to analyze and visualize neuronal signals, extract biophysical metrics, and export datasets for downstream statistical analysis.
+            \item Created a diverse set of custom analyses to gain insights on the effects of compounds on neuronal signals recorded on high-density microelectrode arrays.
+            \item Provided customer support on data handling, software, and custom analysis via Python and MATLAB.
+            \item Collaborated with research groups on publications, grants and conference presentations. 
+            \item Supervised internship projects and guided research initiatives.
+        \end{itemize}
+}
+\vspace{.1cm}
+
+\cventry{summer 2018\\[.1cm] \includegraphics[width=.7\linewidth]{figures/carlyon_logo.png}}%
+{NLP Researcher}% 
+{}{Carlyon AG \href{https://carlyon.ch}{(carlyon.ch \ExternalLink)}, Zurich}{}%
+{
+        \begin{itemize}
+            \setstretch{1.1}
+            \item Used web scraping to create a database of financial textual documents. 
+            \item Applied natural language processing (topic modeling, sentiment analysis) to financial data to create prediction algorithms for market dynamics.
+        \end{itemize}
+}
+\vspace{.1cm}
+
+\cventry{winter 2018\\[.3cm] \includegraphics[width=.7\linewidth]{figures/asimov_logo.png}}%
+{Ontology Database Engineer}%
+{}{ASIMOV Medical \href{https://tracxn.com/d/companies/asimovmed.com}{(asimovmed.com \ExternalLink)}, Zurich}{}%
+{
+        \begin{itemize}
+            \setstretch{1.1}
+            \item Created a normalised HPO (Human Phenotype Ontology) database of disease names and their symptoms and synonyms for a hospital search engine, enabling rapid diagnosis of patients with rare diseases. 
+        \end{itemize}
+}
+\vspace{.1cm}
+
+\cventry{summer 2009\\[.3cm] \includegraphics[width=.8\linewidth]{figures/oxinst_logo.png}}%
+{DNA Repair Research Intern}{}{CRUK/MRC Oxford Institute for Radiation Oncology, Oxford, UK}{}{
+        \begin{itemize}
+            \setstretch{1.1}
+            \item Worked in the Biochemistry and Regulation of DNA Repair Group to isolate and characterise antibodies for ubiquitylated Polymerase $\beta$. Purified polyclonal antibodies from rabbit serum via affinity HPLC, detected specific binding via Western blotting and immunostaining, verified band identity through RNAi knockdown.
+        \end{itemize}
+}
+\vspace{.1cm}
+
+\section{Education}
+
+\cventry{2022\\[.2cm] \includegraphics[width=.5\linewidth]{figures/SIT_logo}}%
+{Data Science Bootcamp}%
+{}{SIT Academy, Zurich}{}%
+{
+    \begin{itemize}
+        \setstretch{1.1}
+        \item Capstone project: "Super-Resolution Technology for Satellite Imagery"
+              (\href{https://github.com/egronskaya/Super-Resolution-for-Satellite-Imagery}{github repo \ExternalLink}).        
+        \item Lectures and course work on Machine Learning, Deep Learning, Natural Language Processing, Data Engineering, Statistical Analysis, and Data Visualisation.  
+    \end{itemize}
+}
+\vspace{.1cm}
+
+\cventry{2011--2017\\[.2cm] \includegraphics[width=.7\linewidth]{figures/ethz_logo}}%
+{Doctoral degree (Dr. Sci. ETH Zurich)}%
+{}{Institute of Neuroinformatics, University and ETH Zurich}{}%
+{
+    \begin{itemize}
+        \setstretch{1.1}
+        \item Group of Prof. Kevan A. C. Martin
+        \item PhD Dissertation: "Sound Processing in the Auditory Cortex of Rats During Sensory Decision-Making" 
+              (\href{https://www.research-collection.ethz.ch/handle/20.500.11850/215167}{research-collection.ethz.ch \ExternalLink}).
+        \item Investigated stimulus processing in the auditory cortex of rats. Designed behavioral paradigms, trained animals in auditory attention tasks, implanted electrodes and carried out electrophysiological recordings in awake behaving animals. Carried out analysis of neural signals: voltage traces (peak detection, waveform shape characterisation, spectral analysis), spike trains (firing rate and regularity, neural tuning, receptive fields, stimulus encoding), and animal behaviour (response accuracy, reaction times, bias) in MATLAB.
+    \end{itemize}
+}
+\vspace{.1cm}
+
+\cventry{2007--2011\\[.1cm] \includegraphics[width=.8\linewidth]{figures/ox_logo.png}}{Master of Molecular \& Cellular Biochemistry}{}
+{University of Oxford, UK}{}
+{\begin{itemize}
+        \setstretch{1.1}
+        \item BSc + MSc (Degree classification: First Class. Class rank: 4th of 86)
+        \item Dissertation: "Investigating the Physiological Role of a Novel Growth-Regulatory Amino Acid Transporter in \emph{Drosophila melanogaster}"
+        \item Specialisations: Chemical Pharmacology, Cancer Biology, Immunology
+    \end{itemize}}
+
+\section{Publications}
+\cventry{2025\\[.2cm]}%
+{Application of a high‐density microelectrode array assay using
+a 3D human iPSC‐derived brain microphysiological system model for in vitro neurotoxicity screening of environmental compounds}%
+{}{Carstens, K.E., Gronskaya, E., Jaeckel, D. \textit{et al.} Arch Toxicol 99, 2917-2935. (\href {https://doi.org/10.1007/s00204-025-04043-x}{\ExternalLink})}{}%
+{}
+\cventry{2019\\[.2cm]}%
+{Evoked response strength in auditory cortex predicts performance in a spectro-spatial discrimination task in rats}%
+{}{Gronskaya E. and Von der Behrens W. Journal of Neuroscience 39 (31) 6108-6121. (\href {https://www.jneurosci.org/content/39/31/6108}{\ExternalLink})}{}%
+{}
+\cventry{2015\\[.2cm]}%
+{The Relationship of Tuning and Noise Correlations in Macaque Auditory Cortex}%
+{}{Andreeva E. Journal of Neuroscience 35 (38) 12974-12976. (\href {https://www.jneurosci.org/content/35/38/12974}{\ExternalLink})}{}%
+{}
+
+\section{Volunteer Work}
+\cventry{2012--2015\\[.1cm] \includegraphics[width=.5\linewidth]{figures/gwwc_logo}}%
+{Co-founder}%
+{}%
+{Giving What We Can Switzerland, Zurich}%
+{}%
+{%
+        \begin{itemize}
+            \setstretch{1.1}
+            \item Launched Zurich chapter of Giving What We Can, an organisation that aims to direct resources towards the most cost-effective charities targeting poverty in the developing world.
+            \item Organized launch event, recruited members, ran monthly guest speaker nights and fundraisers. 
+        \end{itemize}
+}
+\vspace{.08cm}
+
+\cventry{summer 2010\\[.2cm] \includegraphics[width=.4\linewidth]{figures/uvt_logo.jpg}}%
+{English Teacher}{}{West University of Timisoara, Romania}%
+{}%
+{
+        \begin{itemize}
+            \setstretch{1.1}
+            \item Designed lesson plans, prepared course materials, taught daily classes, corrected student work and exams. 
+            \item Organized social activities, city outings, and supported students.
+        \end{itemize}
+}
+
+\section{Interests \& Hobbies}
+
+\cvitem{}{ 
+Elena loves to write, dreaming of one day finishing her first fiction novel (not this CV). She has a green thumb, the walls of her house  becoming overgrown by plants of every kind. She enjoys creating delicious messes out of flour, yeast, spice and seasonal produce, inviting friends over for a taste. Her days in Oxford inspired her love for rowing. For other exercise, she and her husband have a blast chasing their three wild boys around the house. 
+}
+
+\end{document}

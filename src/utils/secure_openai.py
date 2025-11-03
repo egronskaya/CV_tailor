@@ -57,17 +57,13 @@ class SecureOpenAIClient:
         Generate a completion with privacy-preserving settings
         """
         try:
-            response = await self.client.chat.completions.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=max_tokens or self.max_tokens,
                 temperature=temperature or self.temperature,
                 top_p=top_p or self.top_p,
-                user="anonymous",  # Don't associate requests with a user
-                headers={
-                    "X-Request-Type": "private-inference",
-                    "X-Data-Usage-Consent": "false"
-                }
+                user="anonymous"  # Don't associate requests with a user
             )
             
             return response.choices[0].message.content

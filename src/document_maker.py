@@ -14,9 +14,7 @@ class DocumentMaker:
             self.style_guide = yaml.safe_load(f)
             
         # Document settings
-        self.cv_format = os.getenv('CV_FORMAT', 'latex')
-        self.pdf_engine = os.getenv('PDF_ENGINE', 'pdflatex')
-        self.latex_timeout = int(os.getenv('LATEX_TIMEOUT', '30'))
+        self.cv_format = os.getenv('CV_FORMAT', 'pdf')
         
         # Output settings
         self.output_dir = os.getenv('OUTPUT_DIR', 'output')
@@ -70,24 +68,27 @@ class DocumentMaker:
         return doc_bytes.read()
     
     def _create_cv_pdf(self, cv_data: Dict) -> bytes:
-        """Create a PDF version of the CV using LaTeX."""
-        # Create temporary .tex file with content
-        with open('temp.tex', 'w') as f:
-            f.write(cv_data['template'].replace('[CONTENT]', cv_data['content']))
+        """Create a PDF version of the CV using FPDF."""
+        pdf = FPDF()
+        style = self.style_guide['cv_style']
         
-        # Compile LaTeX to PDF
-        subprocess.run(['pdflatex', 'temp.tex'], capture_output=True)
+        pdf.add_page()
+        pdf.set_margins(
+            style['margins']['left'] * 25.4,
+            style['margins']['top'] * 25.4,
+            style['margins']['right'] * 25.4
+        )
         
-        # Read the generated PDF
-        with open('temp.pdf', 'rb') as f:
-            pdf_data = f.read()
+        # Add content
+        pdf.set_font(style['font']['main'], size=style['font']['size'])
+        pdf.multi_cell(0, style['spacing']['line_spacing'] * 10, cv_data['content'])
         
-        # Clean up temporary files
-        for ext in ['.tex', '.pdf', '.aux', '.log']:
-            if os.path.exists(f'temp{ext}'):
-                os.remove(f'temp{ext}')
-        
-        return pdf_data
+        # Save to bytes
+        import io
+        pdf_bytes = io.BytesIO()
+        pdf.output(pdf_bytes)
+        pdf_bytes.seek(0)
+        return pdf_bytes.read()
     
     def _create_letter_docx(self, letter: Dict) -> bytes:
         """Create a DOCX version of a cover letter."""

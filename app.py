@@ -35,6 +35,11 @@ st.markdown("""
     }
     .stTextArea>div>div>textarea {
         background-color: #f8f9fa;
+        color: #2C3E50;
+    }
+    /* Override Streamlit's dark mode textarea color */
+    .stTextArea textarea {
+        color: #2C3E50 !important;
     }
     .success-message {
         padding: 1rem;
@@ -225,7 +230,7 @@ def main():
     col1, col2 = st.columns([1, 4], gap="small")
     
     with col1:
-        st.image("assets/logo.png", width=400, use_container_width=True)
+        st.image("assets/logo.png", width='stretch')
     
     with col2:
         st.markdown("""
@@ -241,9 +246,7 @@ def main():
     # Create tabs with icons
     tab1, tab2 = st.tabs(["Generate Documents", "Review & Edit"])
     
-    with tab1:
-        st.markdown("<div class='tab-content'>", unsafe_allow_html=True)
-        
+    with tab1:        
         # Introduction with steps
         st.markdown("""
             ### How it works:
@@ -314,7 +317,7 @@ def main():
                         cv_docx,
                         "tailored_cv.docx",
                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                        use_container_width=True
+                        width='stretch'
                     )
                 with col2:
                     st.download_button(
@@ -322,7 +325,7 @@ def main():
                         cv_pdf,
                         "tailored_cv.pdf",
                         "application/pdf",
-                        use_container_width=True
+                        width='stretch'
                     )
                 
                 # Cover letter downloads with better organization
@@ -338,7 +341,7 @@ def main():
                             docx,
                             f"cover_letter_{i}.docx",
                             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                            use_container_width=True
+                            width='stretch'
                         )
                     with col2:
                         st.download_button(
@@ -346,7 +349,7 @@ def main():
                             pdf,
                             f"cover_letter_{i}.pdf",
                             "application/pdf",
-                            use_container_width=True
+                            width='stretch'
                         )
                 
                 # Success message with better styling and clear next steps
